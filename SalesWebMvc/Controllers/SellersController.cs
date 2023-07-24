@@ -8,12 +8,14 @@ using SalesWebMvc.Models;
 using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
 using SalesWebMvc.Services.Exceptions;
+
 namespace SalesWebMvc.Controllers
 {
     public class SellersController : Controller
     {
-        public readonly SellerService _sellerService;
-        public readonly DepartmentService _departmentService;
+        private readonly SellerService _sellerService;
+        private readonly DepartmentService _departmentService;
+
         public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService;
@@ -59,6 +61,7 @@ namespace SalesWebMvc.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
+
             return View(obj);
         }
 
@@ -82,6 +85,7 @@ namespace SalesWebMvc.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
+
             return View(obj);
         }
 
@@ -101,7 +105,7 @@ namespace SalesWebMvc.Controllers
             List<Department> departments = await _departmentService.FindAllAsync();
             SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
             return View(viewModel);
-        }
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,6 +131,7 @@ namespace SalesWebMvc.Controllers
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
+
         public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel
